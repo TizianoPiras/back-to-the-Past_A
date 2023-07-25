@@ -3,6 +3,7 @@ extends CharacterBody2D
 var speed = 50
 var player_chase = false
 var player = null
+var flag = 1
 @onready var animation = $AnimatedSprite2D
 var health = 100
 var player_inattack_zone = false
@@ -18,7 +19,7 @@ func _ready():
 func _physics_process(_delta):
 	if Global.pause == false:
 		if player_chase and player_inattack_zone == false:
-			position += (player.position - position)/speed
+			position += (player.position - position)/speed * flag
 		pick_new_state()
 		update(doc.position - self.position)
 		move_and_slide()
@@ -46,6 +47,7 @@ func _on_enemy_area_body_exited(_body):
 func _on_death_zone_body_entered(body):
 	if body.name == "player":
 		Global.player_health -= 5
+		flag = -1
 		if Global.player_health == 0:
 			get_tree().change_scene_to_file("res://scene/main.tscn")
 		player_inattack_zone = true
@@ -53,5 +55,6 @@ func _on_death_zone_body_entered(body):
 
 func _on_death_zone_body_exited(body):
 	if body.has_method("player"):
+		flag = 1
 		player_inattack_zone = false
 

@@ -11,6 +11,8 @@ func _physics_process(delta):
 	if not is_on_floor():
 		velocity.y += gravity * delta
 	Global.menu()
+	if Global.player_health <= 0:
+			get_tree().change_scene_to_file("res://scene/GameOver.tscn")
 	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
 		velocity.y = JUMP_VELOCITY
 		$jump.play()
@@ -37,8 +39,7 @@ func _on_morte_body_entered(body):
 		body.global_position = Global.last_position
 		Global.energy = 0
 		Global.player_health -= 10
-		if Global.player_health <= 0:
-			get_tree().change_scene_to_file("res://scene/main.tscn")
+		
 
 func _on_area_2d_body_entered(body):
 	if body.name == "player":

@@ -5,7 +5,7 @@ extends CanvasLayer
 
 var enemy_score = 0
 var player_score = 0
-var time = 60
+var time = 150
 
 func _process(delta):
 	time -= delta
